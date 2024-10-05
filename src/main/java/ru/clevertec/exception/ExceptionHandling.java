@@ -6,12 +6,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionHandling {
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionResponse> catchException(RuntimeException e){
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> userNotFound(UserNotFoundException e){
         return ResponseEntity.status(404)
                 .body(
                         ExceptionResponse.builder()
-                                .message("aaaaa")
+                                .message(e.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(ChannelNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> channelNotFound(ChannelNotFoundException e){
+        return ResponseEntity.status(404)
+                .body(
+                        ExceptionResponse.builder()
+                                .message(e.getMessage())
                                 .build()
                 );
     }
