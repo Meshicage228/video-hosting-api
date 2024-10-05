@@ -11,7 +11,7 @@ import ru.clevertec.enums.Language;
 @Builder
 public class PaginatedChannelDto {
     private String title;
-    private Long countOfSubscribers;
+    private Integer countOfSubscribers;
     private Language language;
     private Byte[] avatar;
     private Category category;
