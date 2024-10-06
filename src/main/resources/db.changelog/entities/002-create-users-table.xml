@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-master.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create-users" author="Vlad">
+        <createTable tableName="users" schemaName="public">
+            <column name="id" type="UUID" remarks="user ID">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nick_name" type="VARCHAR(40)" remarks="users nickname">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_name" type="VARCHAR(55)" remarks="actual users name">
+            </column>
+            <column name="email" type="VARCHAR(55)" remarks="users email">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

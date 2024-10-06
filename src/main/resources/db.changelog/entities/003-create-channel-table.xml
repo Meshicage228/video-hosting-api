@@ -5,36 +5,23 @@
 
     <changeSet id="create-channelTable" author="Vlad">
         <createTable tableName="channels" schemaName="public">
-            <column name="id" type="BIGINT" remarks="channel ID">
+            <column name="id" type="BIGINT" remarks="channel ID" defaultValueComputed="nextval('public.channel_seq')">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="title" type="VARCHAR(40)" remarks="channel title">
                 <constraints nullable="false"/>
             </column>
-            <column name="short_description" type="VARCHAR(55)" remarks="total square of city">
+            <column name="short_description" type="VARCHAR(55)" remarks="short channel description">
             </column>
             <column name="author_id" type="UUID" remarks="author ID">
             </column>
             <column name="date_of_creation" type="DATE" remarks="year of foundation">
             </column>
-            <column name="language" type="VARCHAR(20)" remarks="count of citizens">
+            <column name="language" type="VARCHAR(20)" remarks="spoken language of channel">
             </column>
-            <column name="avatar" type="bytea" remarks="count of citizens">
+            <column name="category" type="VARCHAR(20)" remarks="channel category">
             </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-users" author="Vlad">
-        <createTable tableName="users" schemaName="public">
-            <column name="id" type="UUID" remarks="user ID">
-                <constraints primaryKey="true" nullable="false" unique="true"/>
-            </column>
-            <column name="nickname" type="VARCHAR(40)" remarks="users nickname">
-                <constraints nullable="false"/>
-            </column>
-            <column name="actual_name" type="VARCHAR(55)" remarks="actual users name">
-            </column>
-            <column name="email" type="VARCHAR(55)" remarks="users email">
+            <column name="avatar" type="oid" remarks="avatar of channel">
             </column>
         </createTable>
     </changeSet>
@@ -46,4 +33,5 @@
                                  referencedTableSchemaName="public"
                                  referencedColumnNames="id"/>
     </changeSet>
+
 </databaseChangeLog>
