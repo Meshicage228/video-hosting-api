@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.clevertec.dto.UserDto;
+import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.entity.UserEntity;
 import ru.clevertec.exception.UserNotFoundException;
 import ru.clevertec.mapper.UserMapper;
@@ -32,11 +33,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void fullUpdateUser(UUID userId, UserDto userDto) {
+    public UserDto fullUpdateUser(UUID userId, UserUpdateDto userDto) {
         UserEntity userEntity = getUserById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-       userMapper.update(userEntity, userDto);
+        UserEntity updatedUser = userMapper.update(userEntity, userDto);
+
+        return userMapper.toDto(updatedUser);
     }
 
     @Override
