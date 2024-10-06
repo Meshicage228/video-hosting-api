@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.UserDto;
+import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.service.UserService;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    private ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto){
+    private ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
         UserDto savedUser = userService.saveUser(channelDto);
 
         return ResponseEntity.status(CREATED)
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    private ResponseEntity<Void> deleteUser(@PathVariable("userId") UUID userId){
+    private ResponseEntity<Void> deleteUser(@PathVariable("userId") UUID userId) {
         userService.deleteUser(userId);
 
         return ResponseEntity.status(NO_CONTENT)
@@ -33,11 +34,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    private ResponseEntity<Void> updateUser(@PathVariable("userId") UUID userId,
-                                            @RequestBody UserDto channelDto){
-       userService.fullUpdateUser(userId, channelDto);
-
-       return ResponseEntity.status(NO_CONTENT)
-               .build();
+    private ResponseEntity<UserDto> updateUser(@PathVariable("userId") UUID userId,
+                                               @RequestBody UserUpdateDto updateDto) {
+        return ResponseEntity.ok(userService.fullUpdateUser(userId, updateDto));
     }
 }
