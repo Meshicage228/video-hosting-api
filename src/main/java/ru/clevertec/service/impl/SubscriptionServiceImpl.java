@@ -23,8 +23,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public void addSubscription(UUID userId, Long subscriptionId) {
-        ChannelEntity channelEntity = channelRepository.findById(subscriptionId).get();
-        UserEntity userEntity = userRepository.findById(userId).get();
+        ChannelEntity channelEntity = channelRepository.findById(subscriptionId)
+                .orElseThrow(ChannelNotFoundException::new);
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         userEntity.addSubscription(channelEntity);
     }
