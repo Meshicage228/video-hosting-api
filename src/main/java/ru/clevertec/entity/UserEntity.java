@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -36,9 +33,7 @@ public class UserEntity {
 
     @PreRemove
     private void preRemove() {
-        // TODO : N + 1
-        subscriptions.forEach(subscription -> subscription.getSubscribers()
-                .remove(this));
+        subscriptions.forEach(subscription -> subscription.getSubscribers().remove(this));
     }
 
     public void addSubscription(ChannelEntity channelEntity) {

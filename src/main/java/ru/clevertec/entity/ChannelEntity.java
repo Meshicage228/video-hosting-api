@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import ru.clevertec.enums.Category;
 import ru.clevertec.enums.Language;
 import java.time.LocalDateTime;
@@ -32,7 +30,7 @@ public class ChannelEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "author_id"
+            name = "author_id"
     )
     private UserEntity author;
 

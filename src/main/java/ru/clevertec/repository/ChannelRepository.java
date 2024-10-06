@@ -7,7 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.ChannelEntity;
-
 import java.util.List;
 import java.util.UUID;
 
