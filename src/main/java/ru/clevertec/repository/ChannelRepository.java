@@ -7,6 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.entity.ChannelEntity;
+import ru.clevertec.entity.UserEntity;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +17,5 @@ public interface ChannelRepository extends JpaRepository<ChannelEntity, Long>,
                                            JpaSpecificationExecutor<ChannelEntity>,
                                            PagingAndSortingRepository<ChannelEntity, Long> {
 
-    @Query("SELECT c.title FROM ChannelEntity c JOIN c.subscribers s WHERE s.id = :subId")
-    List<String> findChannelTitlesBySubscriber(@Param("subId") UUID subscriberId);
 }
 

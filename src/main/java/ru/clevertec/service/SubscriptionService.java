@@ -1,6 +1,8 @@
 package ru.clevertec.service;
 
-import java.util.List;
+import ru.clevertec.dto.response.SubscriptionDto;
+
+import java.util.Set;
 import java.util.UUID;
 
 public interface SubscriptionService {
@@ -8,5 +10,5 @@ public interface SubscriptionService {
 
     void removeSubscription(UUID userId, Long subscriptionId);
 
-    List<String> getSubscriptionTitles(UUID channelId);
+    Set<SubscriptionDto> getSubscriptions(UUID userId);
 }

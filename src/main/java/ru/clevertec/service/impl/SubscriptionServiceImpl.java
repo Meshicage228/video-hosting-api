@@ -3,15 +3,17 @@ package ru.clevertec.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.clevertec.dto.response.SubscriptionDto;
 import ru.clevertec.entity.ChannelEntity;
 import ru.clevertec.entity.UserEntity;
 import ru.clevertec.exception.ChannelNotFoundException;
 import ru.clevertec.exception.UserNotFoundException;
+import ru.clevertec.mapper.ChannelMapper;
 import ru.clevertec.repository.ChannelRepository;
 import ru.clevertec.repository.UserRepository;
 import ru.clevertec.service.SubscriptionService;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class SubscriptionServiceImpl implements SubscriptionService {
     private final UserRepository userRepository;
     private final ChannelRepository channelRepository;
+    private final ChannelMapper channelMapper;
 
     @Override
     @Transactional
@@ -45,10 +48,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<String> getSubscriptionTitles(UUID userId) {
-        userRepository.findById(userId)
+    public Set<SubscriptionDto> getSubscriptions(UUID userId) {
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        return channelRepository.findChannelTitlesBySubscriber(userId);
+        Set<ChannelEntity> subscriptions = userEntity.getSubscriptions();
+
+        return channelMapper.toSubscriptionDtos(subscriptions);
     }
 }

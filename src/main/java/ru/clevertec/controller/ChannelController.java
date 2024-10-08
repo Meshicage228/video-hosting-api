@@ -5,10 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.ChannelDto;
 import ru.clevertec.dto.PaginatedChannelDto;
+import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
+import ru.clevertec.dto.response.ChannelDtoResponse;
 import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.service.ChannelService;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -34,7 +37,7 @@ public class ChannelController {
     }
 
     @GetMapping("/{channelId}")
-    private ResponseEntity<ChannelDto> getChannel(@PathVariable(value = "channelId") Long channelId) {
+    private ResponseEntity<ChannelDtoResponse> getChannel(@PathVariable(value = "channelId") Long channelId) {
         return ResponseEntity.ok(channelService.getChannel(channelId));
     }
 
@@ -42,5 +45,10 @@ public class ChannelController {
     private ResponseEntity<ChannelDto> updateChannel(@PathVariable("channelId") Long channelId,
                                                      @RequestBody ChannelUpdateDto channelUpdateDto) {
         return ResponseEntity.ok(channelService.updateChannel(channelId, channelUpdateDto));
+    }
+
+    @GetMapping("/{channelId}/subscribers")
+    private ResponseEntity<Set<UserDto>> getSubscribers(@PathVariable(value = "channelId") Long channelId) {
+        return ResponseEntity.ok(channelService.getSubscribers(channelId));
     }
 }

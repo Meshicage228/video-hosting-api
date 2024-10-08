@@ -3,8 +3,9 @@ package ru.clevertec.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.clevertec.dto.response.SubscriptionDto;
 import ru.clevertec.service.SubscriptionService;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -35,7 +36,7 @@ public class SubscriptionController {
     }
 
     @GetMapping
-    private ResponseEntity<List<String>> getSubscriptionTitles(@PathVariable("userId") UUID userId) {
-        return ResponseEntity.ok(subscriptionService.getSubscriptionTitles(userId));
+    private ResponseEntity<Set<SubscriptionDto>> getSubscriptionTitles(@PathVariable("userId") UUID userId) {
+        return ResponseEntity.ok(subscriptionService.getSubscriptions(userId));
     }
 }

@@ -5,6 +5,8 @@ import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.entity.UserEntity;
 
+import java.util.Set;
+
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
@@ -23,4 +25,6 @@ public interface UserMapper {
             @Mapping(target = "email", source = "email")
     })
     UserEntity update(@MappingTarget UserEntity userEntity, UserUpdateDto entity);
+
+    Set<UserDto> getUserDtos(Set<UserEntity> userEntities);
 }
