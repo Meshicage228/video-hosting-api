@@ -22,7 +22,7 @@ public class ChannelController {
     private final ChannelService channelService;
 
     @PostMapping
-    private ResponseEntity<ChannelDto> createChannel(@RequestBody ChannelDto channelDto) {
+    public ResponseEntity<ChannelDto> createChannel(@RequestBody ChannelDto channelDto) {
         ChannelDto channel = channelService.saveChannel(channelDto);
 
         return ResponseEntity.status(CREATED)
@@ -30,25 +30,25 @@ public class ChannelController {
     }
 
     @GetMapping
-    private ResponseEntity<List<PaginatedChannelDto>> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    public ResponseEntity<List<PaginatedChannelDto>> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                                     @RequestBody(required = false) ChannelFilter channelFilter) {
         return ResponseEntity.ok(channelService.searchChannel(page, size, channelFilter));
     }
 
     @GetMapping("/{channelId}")
-    private ResponseEntity<ChannelDtoResponse> getChannel(@PathVariable(value = "channelId") Long channelId) {
+    public ResponseEntity<ChannelDtoResponse> getChannel(@PathVariable Long channelId) {
         return ResponseEntity.ok(channelService.getChannel(channelId));
     }
 
     @PutMapping("/{channelId}")
-    private ResponseEntity<ChannelDto> updateChannel(@PathVariable("channelId") Long channelId,
+    public ResponseEntity<ChannelDto> updateChannel(@PathVariable Long channelId,
                                                      @RequestBody ChannelUpdateDto channelUpdateDto) {
         return ResponseEntity.ok(channelService.updateChannel(channelId, channelUpdateDto));
     }
 
     @GetMapping("/{channelId}/subscribers")
-    private ResponseEntity<Set<UserDto>> getSubscribers(@PathVariable(value = "channelId") Long channelId) {
+    public ResponseEntity<Set<UserDto>> getSubscribers(@PathVariable Long channelId) {
         return ResponseEntity.ok(channelService.getSubscribers(channelId));
     }
 }

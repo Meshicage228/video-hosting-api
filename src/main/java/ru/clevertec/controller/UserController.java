@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    private ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
         UserDto savedUser = userService.saveUser(channelDto);
 
         return ResponseEntity.status(CREATED)
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    private ResponseEntity<Void> deleteUser(@PathVariable("userId") UUID userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
 
         return ResponseEntity.status(NO_CONTENT)
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    private ResponseEntity<UserDto> updateUser(@PathVariable("userId") UUID userId,
+    public ResponseEntity<UserDto> updateUser(@PathVariable UUID userId,
                                                @RequestBody UserUpdateDto updateDto) {
         return ResponseEntity.ok(userService.fullUpdateUser(userId, updateDto));
     }

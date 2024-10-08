@@ -18,8 +18,8 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @PostMapping("/{channelId}")
-    private ResponseEntity<Void> subscribeChannel(@PathVariable("userId") UUID userId,
-                                                  @PathVariable("channelId") Long channelId) {
+    public ResponseEntity<Void> subscribeChannel(@PathVariable UUID userId,
+                                                  @PathVariable Long channelId) {
         subscriptionService.addSubscription(userId, channelId);
 
         return ResponseEntity.status(CREATED)
@@ -27,8 +27,8 @@ public class SubscriptionController {
     }
 
     @DeleteMapping("/{channelId}")
-    private ResponseEntity<Void> unsubscribeChannel(@PathVariable("userId") UUID userId,
-                                                    @PathVariable("channelId") Long channelId) {
+    public ResponseEntity<Void> unsubscribeChannel(@PathVariable UUID userId,
+                                                    @PathVariable Long channelId) {
         subscriptionService.removeSubscription(userId, channelId);
 
         return ResponseEntity.status(NO_CONTENT)
@@ -36,7 +36,7 @@ public class SubscriptionController {
     }
 
     @GetMapping
-    private ResponseEntity<Set<SubscriptionDto>> getSubscriptionTitles(@PathVariable("userId") UUID userId) {
+    public ResponseEntity<Set<SubscriptionDto>> getSubscriptionTitles(@PathVariable UUID userId) {
         return ResponseEntity.ok(subscriptionService.getSubscriptions(userId));
     }
 }
