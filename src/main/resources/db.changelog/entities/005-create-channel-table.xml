@@ -19,7 +19,7 @@
             </column>
             <column name="language" type="VARCHAR(20)" remarks="spoken language of channel">
             </column>
-            <column name="category" type="VARCHAR(20)" remarks="channel category">
+            <column name="category_id" type="SMALLINT" remarks="channel category">
             </column>
             <column name="avatar" type="oid" remarks="avatar of channel">
             </column>
@@ -30,6 +30,14 @@
         <addForeignKeyConstraint baseTableName="channels" baseColumnNames="author_id"
                                  baseTableSchemaName="public"
                                  constraintName="fk_user_id" referencedTableName="users"
+                                 referencedTableSchemaName="public"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="modify_fk_channel-category_id" author="Vlad">
+        <addForeignKeyConstraint baseTableName="channels" baseColumnNames="category_id"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_category_id" referencedTableName="categories"
                                  referencedTableSchemaName="public"
                                  referencedColumnNames="id"/>
     </changeSet>
