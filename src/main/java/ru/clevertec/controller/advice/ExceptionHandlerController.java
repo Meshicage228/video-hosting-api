@@ -3,16 +3,15 @@ package ru.clevertec.controller.advice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.clevertec.exception.ChannelNotFoundException;
-import ru.clevertec.exception.ExceptionResponse;
-import ru.clevertec.exception.UserNotFoundException;
+import ru.clevertec.exception.*;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> userNotFound(UserNotFoundException e) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> userNotFound(ResourceNotFoundException e) {
         return ResponseEntity.status(NOT_FOUND)
                 .body(
                         ExceptionResponse.builder()
@@ -21,9 +20,9 @@ public class ExceptionHandlerController {
                 );
     }
 
-    @ExceptionHandler(ChannelNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> channelNotFound(ChannelNotFoundException e) {
-        return ResponseEntity.status(NOT_FOUND)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> exception(Exception e) {
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                 .body(
                         ExceptionResponse.builder()
                                 .message(e.getMessage())
