@@ -3,9 +3,9 @@ package ru.clevertec.service.impl;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import ru.clevertec.dto.CategoryDto;
 import ru.clevertec.dto.filter.ChannelFilter;
 import ru.clevertec.entity.ChannelEntity;
-import ru.clevertec.enums.Category;
 import ru.clevertec.enums.Language;
 import ru.clevertec.service.SpecificationService;
 
@@ -22,19 +22,21 @@ public class ChannelSpecificationService implements SpecificationService<Channel
         return (root, query, builder) -> {
             String title = channelFilter.getTitle();
             Language language = channelFilter.getLanguage();
-            Category category = channelFilter.getCategory();
+            CategoryDto category = channelFilter.getCategory();
             ArrayList<Predicate> predicates = new ArrayList<>();
 
             if (nonNull(title)) {
                 if(isNotBlank(title)) {
-                    predicates.add(builder.like(root.get("title"), "%" + title.toLowerCase().trim() + "%"));
+                    predicates.add(builder.like(root.get("title"), "%" + title.trim() + "%"));
                 }
             }
             if (nonNull(language)) {
                 predicates.add(builder.like(root.get("language"), language.toString()));
             }
             if (nonNull(category)) {
-                predicates.add(builder.like(root.get("category"), category.toString()));
+                if(nonNull(category.getTitle())){
+                    predicates.add(builder.like(root.get("category").get("title"), "%" + category.getTitle().trim() + "%"));
+                }
             }
 
             Predicate[] array = predicates.toArray(Predicate[]::new);

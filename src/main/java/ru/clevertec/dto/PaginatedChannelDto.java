@@ -1,7 +1,6 @@
 package ru.clevertec.dto;
 
 import lombok.*;
-import ru.clevertec.enums.Category;
 import ru.clevertec.enums.Language;
 
 @AllArgsConstructor
@@ -14,5 +13,5 @@ public class PaginatedChannelDto {
     private Integer countOfSubscribers;
     private Language language;
     private Byte[] avatar;
-    private Category category;
+    private CategoryDto category;
 }

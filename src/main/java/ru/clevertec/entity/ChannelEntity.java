@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.clevertec.enums.Category;
 import ru.clevertec.enums.Language;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -49,8 +48,9 @@ public class ChannelEntity {
     @Enumerated(value = EnumType.STRING)
     private Language language;
 
-    @Enumerated(value = EnumType.STRING)
-    private Category category;
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     @Lob
     private byte[] avatar;

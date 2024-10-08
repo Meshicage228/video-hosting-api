@@ -1,7 +1,6 @@
 package ru.clevertec.dto;
 
 import lombok.*;
-import ru.clevertec.enums.Category;
 import ru.clevertec.enums.Language;
 
 import java.util.Date;
@@ -20,6 +19,6 @@ public class ChannelDto {
     private List<UserDto> subscribers;
     private Date dateOfCreation;
     private Language language;
-    private Category category;
+    private CategoryDto category;
     private Byte[] avatar;
 }

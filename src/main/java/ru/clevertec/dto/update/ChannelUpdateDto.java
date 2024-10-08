@@ -1,7 +1,7 @@
 package ru.clevertec.dto.update;
 
 import lombok.*;
-import ru.clevertec.enums.Category;
+import ru.clevertec.dto.CategoryDto;
 import ru.clevertec.enums.Language;
 
 @AllArgsConstructor
@@ -13,5 +13,5 @@ public class ChannelUpdateDto {
     private String title;
     private String shortDescription;
     private Language language;
-    private Category category;
+    private CategoryDto category;
 }

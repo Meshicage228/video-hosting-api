@@ -9,7 +9,8 @@ import java.util.Set;
 
 @Mapper(
         componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = CategoryMapper.class
 )
 public interface UserMapper {
 
