@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.service.UserService;
+
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,13 +30,18 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
 
-        return ResponseEntity.status(NO_CONTENT)
+        return ResponseEntity.noContent()
                 .build();
     }
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@PathVariable UUID userId,
-                                               @RequestBody UserUpdateDto updateDto) {
+                                              @RequestBody UserUpdateDto updateDto) {
         return ResponseEntity.ok(userService.fullUpdateUser(userId, updateDto));
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserDto> patchUpdateUser(@PathVariable UUID userId, @RequestBody Map<Object, Object> patch) {
+        return ResponseEntity.ok(userService.patchUpdateUser(userId, patch));
     }
 }

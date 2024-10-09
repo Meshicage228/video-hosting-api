@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.ChannelDto;
-import ru.clevertec.dto.PaginatedChannelDto;
+import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
 import ru.clevertec.dto.response.ChannelDtoResponse;
 import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.service.ChannelService;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -30,9 +31,9 @@ public class ChannelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PaginatedChannelDto>> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                    @RequestParam(value = "size", defaultValue = "5") Integer size,
-                                                                    @RequestBody(required = false) ChannelFilter channelFilter) {
+    public ResponseEntity<List<PaginatedChannelDtoResponse>> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                           @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                                           @RequestBody(required = false) ChannelFilter channelFilter) {
         return ResponseEntity.ok(channelService.searchChannel(page, size, channelFilter));
     }
 
@@ -50,5 +51,10 @@ public class ChannelController {
     @GetMapping("/{channelId}/subscribers")
     public ResponseEntity<Set<UserDto>> getSubscribers(@PathVariable Long channelId) {
         return ResponseEntity.ok(channelService.getSubscribers(channelId));
+    }
+
+    @PatchMapping("/{channelId}")
+    public ResponseEntity<ChannelDtoResponse> patchUpdateUser(@PathVariable Long channelId, @RequestBody Map<Object, Object> patch) {
+        return ResponseEntity.ok(channelService.patchUpdateChannel(channelId, patch));
     }
 }
