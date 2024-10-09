@@ -27,10 +27,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Transactional
     public void addSubscription(UUID userId, Long subscriptionId) {
         ChannelEntity channelEntity = channelRepository.findById(subscriptionId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(subscriptionId)));
 
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         userEntity.addSubscription(channelEntity);
     }
@@ -39,10 +39,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Transactional
     public void removeSubscription(UUID userId, Long subscriptionId) {
         ChannelEntity channelEntity = channelRepository.findById(subscriptionId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(subscriptionId)));
 
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         userEntity.removeSubscription(channelEntity);
     }
@@ -50,7 +50,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public Set<SubscriptionDtoResponse> getSubscriptions(UUID userId) {
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         Set<ChannelEntity> subscriptions = userEntity.getSubscriptions();
 

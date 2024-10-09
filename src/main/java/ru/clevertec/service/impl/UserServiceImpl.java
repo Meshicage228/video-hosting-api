@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto fullUpdateUser(UUID userId, UserUpdateDto userDto) {
         UserEntity userEntity = getUserById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         UserEntity updatedUser = userMapper.update(userEntity, userDto);
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(UUID userId) {
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         channelRepository.findByAuthor(userEntity)
                 .forEach(channelEntity -> channelEntity.setAuthor(null));
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto patchUpdateUser(UUID userId, Map<Object, Object> userDto) {
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         fieldSetterService.setFields(userEntity, userDto);
 

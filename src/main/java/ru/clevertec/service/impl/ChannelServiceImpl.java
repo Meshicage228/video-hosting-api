@@ -52,7 +52,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public ChannelDtoResponse getChannel(Long channelId) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         return mapper.channelToDo(channelEntity);
     }
@@ -61,7 +61,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Transactional
     public ChannelDto updateChannel(Long channelId, ChannelUpdateDto channelDto) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         ChannelEntity updatedChannel = mapper.updateChannel(channelEntity, channelDto);
 
@@ -71,7 +71,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public Set<UserDto> getSubscribers(Long channelId) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         Set<UserEntity> subscribers = channelEntity.getSubscribers();
 
@@ -82,7 +82,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Transactional
     public ChannelDtoResponse patchUpdateChannel(Long channelId, Map<Object, Object> patch) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
-                .orElseThrow(ChannelNotFoundException::new);
+                .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         fieldSetterService.setFields(channelEntity, patch);
 
