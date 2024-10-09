@@ -2,9 +2,9 @@ package ru.clevertec.mapper;
 
 import org.mapstruct.*;
 import ru.clevertec.dto.ChannelDto;
-import ru.clevertec.dto.PaginatedChannelDto;
+import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.response.ChannelDtoResponse;
-import ru.clevertec.dto.response.SubscriptionDto;
+import ru.clevertec.dto.response.SubscriptionDtoResponse;
 import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.entity.ChannelEntity;
 
@@ -28,7 +28,7 @@ public interface ChannelMapper {
     }
 
     @Mapping(target = "countOfSubscribers", expression = "java(channelEntity.getSubscribers().size())")
-    PaginatedChannelDto paginatedSearchResult(ChannelEntity channelEntity);
+    PaginatedChannelDtoResponse paginatedSearchResult(ChannelEntity channelEntity);
 
     @Mapping(target = "countOfSubscribers", expression = "java(channelEntity.getSubscribers().size())")
     ChannelDtoResponse channelToDo(ChannelEntity channelEntity);
@@ -42,5 +42,5 @@ public interface ChannelMapper {
     })
     ChannelEntity updateChannel(@MappingTarget ChannelEntity target, ChannelUpdateDto channelDto);
 
-    Set<SubscriptionDto> toSubscriptionDtos(Set<ChannelEntity> subscriptionEntities);
+    Set<SubscriptionDtoResponse> toSubscriptionDtos(Set<ChannelEntity> subscriptionEntities);
 }

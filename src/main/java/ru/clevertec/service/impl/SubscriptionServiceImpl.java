@@ -3,7 +3,7 @@ package ru.clevertec.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.response.SubscriptionDto;
+import ru.clevertec.dto.response.SubscriptionDtoResponse;
 import ru.clevertec.entity.ChannelEntity;
 import ru.clevertec.entity.UserEntity;
 import ru.clevertec.exception.ChannelNotFoundException;
@@ -48,7 +48,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Set<SubscriptionDto> getSubscriptions(UUID userId) {
+    public Set<SubscriptionDtoResponse> getSubscriptions(UUID userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 

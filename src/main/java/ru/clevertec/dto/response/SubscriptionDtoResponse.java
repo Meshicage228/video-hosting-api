@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class SubscriptionDto {
+public class SubscriptionDtoResponse {
     private Long id;
     private String title;
 }

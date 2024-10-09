@@ -1,6 +1,7 @@
-package ru.clevertec.dto;
+package ru.clevertec.dto.response;
 
 import lombok.*;
+import ru.clevertec.dto.CategoryDto;
 import ru.clevertec.enums.Language;
 
 @AllArgsConstructor
@@ -8,7 +9,7 @@ import ru.clevertec.enums.Language;
 @Getter
 @Setter
 @Builder
-public class PaginatedChannelDto {
+public class PaginatedChannelDtoResponse {
     private String title;
     private Integer countOfSubscribers;
     private Language language;
