@@ -1,8 +1,9 @@
 package ru.clevertec.dto.response;
 
 import lombok.*;
-import ru.clevertec.dto.CategoryDto;
-import ru.clevertec.enums.Language;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,9 +11,6 @@ import ru.clevertec.enums.Language;
 @Setter
 @Builder
 public class PaginatedChannelDtoResponse {
-    private String title;
-    private Integer countOfSubscribers;
-    private Language language;
-    private Byte[] avatar;
-    private CategoryDto category;
+    private List<ChannelShortDto> channelList;
+    private Pageable pageable;
 }

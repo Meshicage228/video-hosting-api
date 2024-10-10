@@ -2,6 +2,7 @@ package ru.clevertec.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import ru.clevertec.mapper.UserMapper;
 import ru.clevertec.repository.ChannelRepository;
 import ru.clevertec.service.ChannelService;
 import ru.clevertec.service.SpecificationService;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -28,25 +29,23 @@ import java.util.Set;
 public class ChannelServiceImpl implements ChannelService {
     private final ChannelRepository channelRepository;
     private final UserMapper userMapper;
-    private final ChannelMapper mapper;
+    private final ChannelMapper channelMapper;
     private final FieldSetterService fieldSetterService;
     private final SpecificationService specificationService;
 
     @Override
     public ChannelDto saveChannel(ChannelDto channelDto) {
-        ChannelEntity entity = mapper.toEntity(channelDto);
+        ChannelEntity entity = channelMapper.toEntity(channelDto);
         ChannelEntity saved = channelRepository.save(entity);
-        return mapper.toDto(saved);
+        return channelMapper.toDto(saved);
     }
 
     @Override
-    public List<PaginatedChannelDtoResponse> searchChannel(Integer page, Integer size, ChannelFilter channelFilter) {
+    public PaginatedChannelDtoResponse searchChannel(Integer page, Integer size, ChannelFilter channelFilter) {
         Specification<ChannelEntity> specification = specificationService.createSpecification(channelFilter);
 
-        return channelRepository.findAll(specification, PageRequest.of(page, size))
-                .stream()
-                .map(mapper::paginatedSearchResult)
-                .toList();
+        Page<ChannelEntity> channelEntityPage = channelRepository.findAll(specification, PageRequest.of(page, size));
+        return channelMapper.channelEntitiesToPaginatedChannelDtoResponse(channelEntityPage.getContent(), channelEntityPage.getPageable());
     }
 
     @Override
@@ -54,7 +53,7 @@ public class ChannelServiceImpl implements ChannelService {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
-        return mapper.channelToDo(channelEntity);
+        return channelMapper.channelToDo(channelEntity);
     }
 
     @Override
@@ -63,9 +62,9 @@ public class ChannelServiceImpl implements ChannelService {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
-        ChannelEntity updatedChannel = mapper.updateChannel(channelEntity, channelDto);
+        ChannelEntity updatedChannel = channelMapper.updateChannel(channelEntity, channelDto);
 
-        return mapper.toDto(updatedChannel);
+        return channelMapper.toDto(updatedChannel);
     }
 
     @Override
@@ -86,7 +85,7 @@ public class ChannelServiceImpl implements ChannelService {
 
         fieldSetterService.setFields(channelEntity, patch);
 
-        return mapper.channelToDo(channelEntity);
+        return channelMapper.channelToDo(channelEntity);
     }
 
 }

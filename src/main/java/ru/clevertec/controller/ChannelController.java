@@ -10,7 +10,7 @@ import ru.clevertec.dto.filter.ChannelFilter;
 import ru.clevertec.dto.response.ChannelDtoResponse;
 import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.service.ChannelService;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -31,9 +31,9 @@ public class ChannelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PaginatedChannelDtoResponse>> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                                           @RequestParam(value = "size", defaultValue = "5") Integer size,
-                                                                           @RequestBody(required = false) ChannelFilter channelFilter) {
+    public ResponseEntity<PaginatedChannelDtoResponse> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                     @RequestParam(value = "size", defaultValue = "5") Integer size,
+                                                                     @RequestBody(required = false) ChannelFilter channelFilter) {
         return ResponseEntity.ok(channelService.searchChannel(page, size, channelFilter));
     }
 

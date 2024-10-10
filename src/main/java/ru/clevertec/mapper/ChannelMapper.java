@@ -1,6 +1,7 @@
 package ru.clevertec.mapper;
 
 import org.mapstruct.*;
+import org.springframework.data.domain.Pageable;
 import ru.clevertec.dto.ChannelDto;
 import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.response.ChannelDtoResponse;
@@ -9,12 +10,13 @@ import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.entity.ChannelEntity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = CategoryMapper.class
+        uses = {CategoryMapper.class, ShortChannelMapper.class}
 )
 public interface ChannelMapper {
 
@@ -27,8 +29,7 @@ public interface ChannelMapper {
         entity.setDateOfCreation(LocalDateTime.now());
     }
 
-    @Mapping(target = "countOfSubscribers", expression = "java(channelEntity.getSubscribers().size())")
-    PaginatedChannelDtoResponse paginatedSearchResult(ChannelEntity channelEntity);
+    PaginatedChannelDtoResponse channelEntitiesToPaginatedChannelDtoResponse(List<ChannelEntity> channelList, Pageable pageable);
 
     @Mapping(target = "countOfSubscribers", expression = "java(channelEntity.getSubscribers().size())")
     ChannelDtoResponse channelToDo(ChannelEntity channelEntity);
