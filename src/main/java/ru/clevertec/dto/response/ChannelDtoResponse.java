@@ -21,5 +21,5 @@ public class ChannelDtoResponse {
     private Date dateOfCreation;
     private Language language;
     private CategoryDto category;
-    private Byte[] avatar;
+    private String avatar;
 }

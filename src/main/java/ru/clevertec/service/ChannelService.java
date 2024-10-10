@@ -1,6 +1,7 @@
 package ru.clevertec.service;
 
-import ru.clevertec.dto.ChannelDto;
+import org.springframework.web.multipart.MultipartFile;
+import ru.clevertec.dto.request.ChannelDtoRequest;
 import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
@@ -11,13 +12,13 @@ import java.util.Map;
 import java.util.Set;
 
 public interface ChannelService {
-    ChannelDto saveChannel(ChannelDto channelDto);
+    ChannelDtoResponse saveChannel(ChannelDtoRequest channelDto);
 
     PaginatedChannelDtoResponse searchChannel(Integer page, Integer size, ChannelFilter channelId);
 
     ChannelDtoResponse getChannel(Long channelId);
 
-    ChannelDto updateChannel(Long channelId, ChannelUpdateDto channelDto);
+    ChannelDtoResponse updateChannel(Long channelId, ChannelUpdateDto channelDto);
 
     Set<UserDto> getSubscribers(Long channelId);
 

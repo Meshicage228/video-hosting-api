@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.ChannelDto;
+import ru.clevertec.dto.request.ChannelDtoRequest;
 import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
@@ -34,7 +34,7 @@ public class ChannelServiceImpl implements ChannelService {
     private final SpecificationService specificationService;
 
     @Override
-    public ChannelDto saveChannel(ChannelDto channelDto) {
+    public ChannelDtoResponse saveChannel(ChannelDtoRequest channelDto) {
         ChannelEntity entity = channelMapper.toEntity(channelDto);
         ChannelEntity saved = channelRepository.save(entity);
         return channelMapper.toDto(saved);
@@ -53,12 +53,12 @@ public class ChannelServiceImpl implements ChannelService {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
-        return channelMapper.channelToDo(channelEntity);
+        return channelMapper.channelToDto(channelEntity);
     }
 
     @Override
     @Transactional
-    public ChannelDto updateChannel(Long channelId, ChannelUpdateDto channelDto) {
+    public ChannelDtoResponse updateChannel(Long channelId, ChannelUpdateDto channelDto) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
@@ -85,7 +85,7 @@ public class ChannelServiceImpl implements ChannelService {
 
         fieldSetterService.setFields(channelEntity, patch);
 
-        return channelMapper.channelToDo(channelEntity);
+        return channelMapper.channelToDto(channelEntity);
     }
 
 }

@@ -3,7 +3,7 @@ package ru.clevertec.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.clevertec.dto.ChannelDto;
+import ru.clevertec.dto.request.ChannelDtoRequest;
 import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
@@ -23,11 +23,11 @@ public class ChannelController {
     private final ChannelService channelService;
 
     @PostMapping
-    public ResponseEntity<ChannelDto> createChannel(@RequestBody ChannelDto channelDto) {
-        ChannelDto channel = channelService.saveChannel(channelDto);
+    public ResponseEntity<ChannelDtoResponse> createChannel(@ModelAttribute ChannelDtoRequest channelDto) {
+        ChannelDtoResponse channelDtoResponse = channelService.saveChannel(channelDto);
 
         return ResponseEntity.status(CREATED)
-                .body(channel);
+                .body(channelDtoResponse);
     }
 
     @GetMapping
@@ -43,7 +43,7 @@ public class ChannelController {
     }
 
     @PutMapping("/{channelId}")
-    public ResponseEntity<ChannelDto> updateChannel(@PathVariable Long channelId,
+    public ResponseEntity<ChannelDtoResponse> updateChannel(@PathVariable Long channelId,
                                                      @RequestBody ChannelUpdateDto channelUpdateDto) {
         return ResponseEntity.ok(channelService.updateChannel(channelId, channelUpdateDto));
     }
