@@ -1,6 +1,8 @@
 package ru.clevertec.dto;
 
 import lombok.*;
+import ru.clevertec.dto.response.SubscriptionDtoResponse;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -14,5 +16,5 @@ public class UserDto {
     private String nickName;
     private String actualName;
     private String email;
-    private List<ChannelDto> subscriptions;
+    private List<SubscriptionDtoResponse> subscriptions;
 }
