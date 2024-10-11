@@ -30,7 +30,7 @@ public class ChannelController {
                 .body(channelDtoResponse);
     }
 
-    @GetMapping
+    @PostMapping("/search")
     public ResponseEntity<PaginatedChannelDtoResponse> searchChannel(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                      @RequestParam(value = "size", defaultValue = "5") Integer size,
                                                                      @RequestBody(required = false) ChannelFilter channelFilter) {
