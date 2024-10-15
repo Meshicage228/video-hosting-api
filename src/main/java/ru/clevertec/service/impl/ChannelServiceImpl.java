@@ -18,8 +18,8 @@ import ru.clevertec.exception.ChannelNotFoundException;
 import ru.clevertec.mapper.ChannelMapper;
 import ru.clevertec.mapper.UserMapper;
 import ru.clevertec.repository.ChannelRepository;
+import ru.clevertec.repository.ChannelSpecificationService;
 import ru.clevertec.service.ChannelService;
-import ru.clevertec.service.SpecificationService;
 
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +31,6 @@ public class ChannelServiceImpl implements ChannelService {
     private final UserMapper userMapper;
     private final ChannelMapper channelMapper;
     private final FieldSetterService fieldSetterService;
-    private final SpecificationService specificationService;
 
     @Override
     public ChannelDtoResponse saveChannel(ChannelDtoRequest channelDto) {
@@ -42,7 +41,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public PaginatedChannelDtoResponse searchChannel(Integer page, Integer size, ChannelFilter channelFilter) {
-        Specification<ChannelEntity> specification = specificationService.createSpecification(channelFilter);
+        Specification<ChannelEntity> specification = ChannelSpecificationService.createSpecification(channelFilter);
 
         Page<ChannelEntity> channelEntityPage = channelRepository.findAll(specification, PageRequest.of(page, size));
         return channelMapper.channelEntitiesToPaginatedChannelDtoResponse(channelEntityPage.getContent(), channelEntityPage.getPageable());
