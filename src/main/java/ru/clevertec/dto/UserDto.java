@@ -1,8 +1,8 @@
 package ru.clevertec.dto;
 
 import lombok.*;
-import ru.clevertec.dto.request.SessionRequest;
 import ru.clevertec.dto.response.SubscriptionDtoResponse;
+import ru.clevertec.springbootsessionstarter.dto.SessionRequest;
 
 import java.util.List;
 import java.util.UUID;

@@ -21,9 +21,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @SessionProvider(blackLists = "haha", propertyProviders = DefaultBlackListProvider.class)
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
-        UserDto savedUser = userService.saveUser(channelDto);
+    @SessionProvider(blackLists = "from annotation")
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        UserDto savedUser = userService.saveUser(userDto);
 
         return ResponseEntity.status(CREATED)
                 .body(savedUser);
