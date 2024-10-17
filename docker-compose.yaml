@@ -11,3 +11,13 @@ services:
       - POSTGRES_USER=cleverMan
       - POSTGRES_PASSWORD=123123
       - POSTGRES_DB=cleverDB
+  session-postgres:
+    image: 'postgres:14.3-alpine'
+    container_name: testing
+    restart: always
+    ports:
+      - "15433:5432"
+    environment:
+      - POSTGRES_USER=cleverMan
+      - POSTGRES_PASSWORD=111111
+      - POSTGRES_DB=testSession

@@ -1,2 +1,4 @@
 rootProject.name = 'video-hosting-api'
+include 'session-service'
+include 'springBoot-session-starter'
 

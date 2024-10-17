@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.service.UserService;
+import ru.clevertec.springbootsessionstarter.annotation.SessionProvider;
+import ru.clevertec.springbootsessionstarter.service.impl.DefaultBlackListProvider;
 
 import java.util.Map;
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @SessionProvider(blackLists = "haha", propertyProviders = DefaultBlackListProvider.class)
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
         UserDto savedUser = userService.saveUser(channelDto);
 

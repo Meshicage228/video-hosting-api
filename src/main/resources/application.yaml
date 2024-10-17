@@ -20,3 +20,14 @@ spring:
     enabled: true
     changeLog: db.changelog/changelog-master.xml
     liquibase-schema: public
+session:
+  provider:
+    enabled: true
+    black-list:
+      - "hello"
+      - "Hahha"
+service-feign:
+  clients:
+    name: session-client
+    url: 127.0.0.1:8081
+    path: /v1/sessions
