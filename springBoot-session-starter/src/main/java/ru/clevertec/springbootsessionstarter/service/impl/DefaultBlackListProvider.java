@@ -2,14 +2,14 @@ package ru.clevertec.springbootsessionstarter.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.clevertec.springbootsessionstarter.service.BlackListPropertiesProvider;
+import ru.clevertec.springbootsessionstarter.service.BlackListProvider;
 import ru.clevertec.springbootsessionstarter.service.DefaultPropertyProvider;
 
 import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
-public class DefaultBlackListProvider implements BlackListPropertiesProvider {
+public class DefaultBlackListProvider implements BlackListProvider {
     private final DefaultPropertyProvider defaultPropertyProvider;
 
     @Override

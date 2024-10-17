@@ -1,5 +1,6 @@
 package ru.clevertec.springbootsessionstarter.config;
 
+import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -11,11 +12,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.scheduling.annotation.EnableAsync;
 import ru.clevertec.springbootsessionstarter.bdd.SessionHandlerPostProcessor;
+import ru.clevertec.springbootsessionstarter.clients.FeignCustomErrorDecoder;
 import ru.clevertec.springbootsessionstarter.clients.SessionClient;
 import ru.clevertec.springbootsessionstarter.listener.SessionStarterListener;
 import ru.clevertec.springbootsessionstarter.service.DefaultPropertyProvider;
 import ru.clevertec.springbootsessionstarter.service.FeignPropertiesProvider;
 import ru.clevertec.springbootsessionstarter.service.SessionService;
+import ru.clevertec.springbootsessionstarter.service.impl.DefaultBlackListProvider;
 
 @EnableAsync
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -31,12 +34,23 @@ public class StarterAutoConfiguration {
     }
 
     @Bean
-    public SessionStarterListener sessionStarterListener(DefaultPropertyProvider defaultPropertyProvider) {
-        return new SessionStarterListener(defaultPropertyProvider);
+    public DefaultBlackListProvider getDefaultBlackListProvider(DefaultPropertyProvider propertyProvider) {
+        return new DefaultBlackListProvider(propertyProvider);
+    }
+
+    @Bean
+    public SessionStarterListener sessionStarterListener(DefaultPropertyProvider defaultPropertyProvider,
+                                                         FeignPropertiesProvider feignPropertiesProvider) {
+        return new SessionStarterListener(defaultPropertyProvider, feignPropertiesProvider);
     }
 
     @Bean
     public SessionService sessionService(SessionClient sessionClient) {
         return new SessionService(sessionClient);
+    }
+
+    @Bean
+    public ErrorDecoder createDecoder(){
+        return new FeignCustomErrorDecoder();
     }
 }

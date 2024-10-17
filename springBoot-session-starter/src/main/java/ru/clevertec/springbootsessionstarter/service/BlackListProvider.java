@@ -2,6 +2,6 @@ package ru.clevertec.springbootsessionstarter.service;
 
 import java.util.Set;
 
-public interface BlackListPropertiesProvider {
+public interface BlackListProvider {
     Set<String> getBlackList();
 }

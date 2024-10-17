@@ -17,5 +17,5 @@ import java.util.Set;
 public class DefaultPropertyProvider {
     private boolean enabled;
     private Set<String> blackList = new HashSet<>();
-    private Set<Class<? extends BlackListPropertiesProvider>> propertyProviders = new HashSet<>();
+    private Set<Class<? extends BlackListProvider>> propertyProviders = new HashSet<>();
 }
