@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface SessionProvider {
     String[] blackLists() default {};
-    Class<? extends BlackListProvider>[] blackListProviders() default {DefaultBlackListProvider.class};
+    boolean defaultBlackListProviderEnabled() default true;
+    Class<? extends BlackListProvider>[] blackListProviders() default DefaultBlackListProvider.class;
 }

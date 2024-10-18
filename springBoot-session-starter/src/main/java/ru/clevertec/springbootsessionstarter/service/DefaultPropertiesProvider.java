@@ -14,8 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ConfigurationProperties(prefix = "session.provider")
-public class DefaultPropertyProvider {
-    private boolean enabled;
+public class DefaultPropertiesProvider {
+    private boolean enabled = true;
     private Set<String> blackList = new HashSet<>();
     private Set<Class<? extends BlackListProvider>> propertyProviders = new HashSet<>();
 }

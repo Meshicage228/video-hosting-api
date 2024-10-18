@@ -6,7 +6,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.cglib.proxy.Enhancer;
 import ru.clevertec.springbootsessionstarter.annotation.SessionProvider;
-import ru.clevertec.springbootsessionstarter.service.DefaultPropertyProvider;
+import ru.clevertec.springbootsessionstarter.service.DefaultPropertiesProvider;
 import ru.clevertec.springbootsessionstarter.service.SessionInterceptor;
 import ru.clevertec.springbootsessionstarter.service.SessionService;
 
@@ -42,10 +42,10 @@ public class SessionHandlerPostProcessor implements BeanPostProcessor, BeanFacto
 
     private Object getMetricProxy(Object bean) {
         SessionService sessionService = beanFactory.getBean(SessionService.class);
-        DefaultPropertyProvider defaultPropertyProvider = beanFactory.getBean(DefaultPropertyProvider.class);
+        DefaultPropertiesProvider defaultPropertiesProvider = beanFactory.getBean(DefaultPropertiesProvider.class);
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(bean.getClass());
-        enhancer.setCallback(new SessionInterceptor(bean, sessionService, defaultPropertyProvider, beanFactory));
+        enhancer.setCallback(new SessionInterceptor(bean, sessionService, defaultPropertiesProvider, beanFactory));
         return isPresentDefaultConstructor(bean)
                 ? enhancer.create()
                 : enhancer.create(getNotDefaultConstructorArgTypes(bean), getNotDefaultConstructorArgs(bean));
