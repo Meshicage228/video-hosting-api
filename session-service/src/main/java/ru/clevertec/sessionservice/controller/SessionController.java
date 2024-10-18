@@ -17,11 +17,9 @@ public class SessionController {
     private final SessionService sessionService;
 
     @GetMapping
-    public Session getOrCreateAndGetSession(@Valid @NotBlank(message = "should not be blank")
+    public SessionResponse getOrCreateAndGetSession(@Valid @NotBlank(message = "should not be blank")
                                                         @NotNull(message = "Login not provided")
                                                         @RequestParam("login") String login) {
-        SessionResponse sessionByLogin = sessionService.findSessionByLogin(login);
-        Session session = new Session(sessionByLogin.id(), sessionByLogin.login(), sessionByLogin.creationDate());
-        return session;
+        return sessionService.findSessionByLogin(login);
     }
 }

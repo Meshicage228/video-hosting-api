@@ -1,22 +1,19 @@
 package ru.clevertec.sessionservice.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import ru.clevertec.sessionservice.dto.SessionRequest;
 import ru.clevertec.sessionservice.dto.SessionResponse;
 import ru.clevertec.sessionservice.mapper.SessionMapper;
-import ru.clevertec.sessionservice.repository.SessionRep;
-//import ru.clevertec.sessionservice.repository.SessionRepository;
+import ru.clevertec.sessionservice.repository.SessionRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class SessionService {
-//    private final SessionRepository sessionRepository;
-    private final SessionRep sessionRepository;
+    private final SessionRepository sessionRepository;
     private final SessionMapper sessionMapper;
 
     public SessionResponse findSessionByLogin(String login) {
