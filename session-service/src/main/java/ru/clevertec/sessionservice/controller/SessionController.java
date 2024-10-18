@@ -10,7 +10,7 @@ import ru.clevertec.sessionservice.dto.SessionResponse;
 import ru.clevertec.sessionservice.entity.Session;
 import ru.clevertec.sessionservice.service.SessionService;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/sessions")
 public class SessionController {
