@@ -24,8 +24,9 @@ session:
   provider:
     enabled: true
     black-list:
-      - "hello"
-      - "Hahha"
+      - "Egor"
+      - "Andrey"
+    property-providers: ru.clevertec.providers.BlackListFromBD
 service-feign:
   clients:
     name: session-client
