@@ -26,19 +26,20 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "2022.0.0")
-    set('springCloudVersion23', "3.1.0")
-    set('springBootVersion', '3.0.6')
+    versions = [
+            'springCloudVersion'  : '2022.0.0',
+            'springCloudVersion23': '3.1.0',
+            'springBootVersion'   : '3.0.6',
+            'feign_client'        : '3.0.6',
+    ]
 }
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    api group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '4.0.4'
+    api "org.springframework.cloud:spring-cloud-openfeign-core:${versions.feign_client}"
+    api "org.springframework.boot:spring-boot-starter:${versions.springBootVersion}"
+    api "org.springframework.boot:spring-boot-starter-web:${versions.springBootVersion}"
 
-    api "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    api "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${versions.springBootVersion}"
 
     implementation 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -47,11 +48,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
 
 publishing {
     publications {
