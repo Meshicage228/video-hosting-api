@@ -2,16 +2,18 @@ package ru.clevertec.dto;
 
 import lombok.*;
 import ru.clevertec.dto.response.SubscriptionDtoResponse;
+import ru.clevertec.springbootsessionstarter.dto.SessionRequest;
 
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @Builder
-public class UserDto {
+public class UserDto extends SessionRequest {
     private UUID id;
     private String nickName;
     private String actualName;

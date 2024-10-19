@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.10'
+    id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
@@ -9,22 +9,26 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 ext {
     versions = [
-            lombok            : '1.18.32',
-            mapstruct         : '1.5.3.Final',
-            liquibase         : '4.27.0'
+            lombok             : '1.18.32',
+            springCloudVersion : '2022.0.0',
+            mapstruct          : '1.5.3.Final',
+            liquibase          : '4.27.0',
+            feign_client       : '4.0.4'
     ]
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "org.springframework.cloud:spring-cloud-openfeign-core:${versions.feign_client}"
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'ru.clevertec:springBoot-session-starter:1.1.0'
 
     implementation "org.liquibase:liquibase-core:${versions.liquibase}"
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     runtimeOnly 'org.postgresql:postgresql'
 
     implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
@@ -35,6 +39,12 @@ dependencies {
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloudVersion}"
+    }
 }
 
 test {

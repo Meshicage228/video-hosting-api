@@ -1,0 +1,21 @@
+server:
+  port: 8081
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: db.changelog/changelog-master.xml
+  data:
+    mongodb:
+      username: root
+      password: password
+      database: sessions
+      host: localhost
+      authentication-database: admin
+      port: 27017
+app:
+  session:
+    clean:
+      enabled: true
+      frequency: "0 0 * * * ?"

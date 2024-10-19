@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'ru.clevertec'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    versions = [
+            lombok            : '1.18.32',
+            mapstruct         : '1.5.3.Final',
+            liquibase         : '4.27.0'
+    ]
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation "org.liquibase:liquibase-core:${versions.liquibase}"
+
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+    compileOnly "org.projectlombok:lombok:${versions.lombok}"
+    annotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+compileJava{
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring'
+    ]
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
