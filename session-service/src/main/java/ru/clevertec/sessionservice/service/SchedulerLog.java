@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @ConfigurationProperties(prefix = "app.session.clean")
 public class SchedulerLog {
-    private boolean enabled;
-    private String frequency = "0 0 * * * ?"; // "@daily"
+    private boolean enabled = true;
+    private String frequency = "0 0 * * * ?";
 
     @PostConstruct
     public void log() {
