@@ -1,5 +1,6 @@
 package ru.clevertec.springbootsessionstarter.config;
 
+import feign.codec.ErrorDecoder;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.scheduling.annotation.EnableAsync;
 import ru.clevertec.springbootsessionstarter.bdd.SessionHandlerPostProcessor;
+import ru.clevertec.springbootsessionstarter.clients.FeignExceptionDecoder;
 import ru.clevertec.springbootsessionstarter.clients.SessionClient;
 import ru.clevertec.springbootsessionstarter.listener.SessionStarterListener;
 import ru.clevertec.springbootsessionstarter.service.DefaultPropertiesProvider;
@@ -45,5 +47,10 @@ public class StarterAutoConfiguration {
     @Bean
     public SessionService sessionService(SessionClient sessionClient) {
         return new SessionService(sessionClient);
+    }
+
+    @Bean
+    public ErrorDecoder feignExceptionDecoder(){
+        return new FeignExceptionDecoder();
     }
 }

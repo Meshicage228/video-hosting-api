@@ -28,7 +28,6 @@ repositories {
 ext {
     versions = [
             'springCloudVersion'  : '2022.0.0',
-            'springCloudVersion23': '3.1.0',
             'springBootVersion'   : '3.0.6',
             'feign_client'        : '3.0.6',
     ]
@@ -38,6 +37,7 @@ dependencies {
     api "org.springframework.cloud:spring-cloud-openfeign-core:${versions.feign_client}"
     api "org.springframework.boot:spring-boot-starter:${versions.springBootVersion}"
     api "org.springframework.boot:spring-boot-starter-web:${versions.springBootVersion}"
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${versions.springBootVersion}"
 
@@ -54,6 +54,12 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
         }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloudVersion}"
     }
 }
 
