@@ -8,17 +8,17 @@ services:
     ports:
       - ${POSTGRES_LOCAL_PORT}:${POSTGRES_DOCKER_PORT}
     environment:
-        POSTGRES_USER : ${POSTGRES_USER}
-        POSTGRES_PASSWORD : ${POSTGRES_PASSWORD}
-        POSTGRES_DB : ${POSTGRES_DB_TITLE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_TITLE}
   session-provider:
-     image: mongo:latest
-     container_name: mongodb-sessions
-     restart: always
-     environment:
+    image: mongo:latest
+    container_name: mongodb-sessions
+    restart: always
+    environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DB_TITLE}
-     ports:
+    ports:
       - ${MONGO_LOCAL_PORT}:${MONGO_DOCKER_PORT}
-     hostname: ${MONGO_HOSTNAME}
+    hostname: ${MONGO_HOSTNAME}
