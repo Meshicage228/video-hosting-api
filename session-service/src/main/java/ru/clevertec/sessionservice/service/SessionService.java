@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.clevertec.sessionservice.dto.SessionRequest;
 import ru.clevertec.sessionservice.dto.SessionResponse;
+import ru.clevertec.sessionservice.exception.CreateSessionException;
 import ru.clevertec.sessionservice.mapper.SessionMapper;
 import ru.clevertec.sessionservice.repository.SessionRepository;
 
@@ -27,7 +28,7 @@ public class SessionService {
                 .map(sessionMapper::fromRequestToSession)
                 .map(sessionRepository::save)
                 .map(sessionMapper::fromSessionToResponse)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new CreateSessionException("Error creating session"));
     }
 
     public void cleanAllExpiredSessions() {
