@@ -2,7 +2,8 @@ package ru.clevertec.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.CategoryDto;
+import ru.clevertec.dto.category.CreateCategoryDto;
+import ru.clevertec.dto.category.CreatedCategoryDto;
 import ru.clevertec.entity.CategoryEntity;
 import ru.clevertec.exception.CategoryNotFoundException;
 import ru.clevertec.mapper.CategoryMapper;
@@ -18,8 +19,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public CategoryDto saveCategory(CategoryDto categoryDto) {
-        CategoryEntity entity = categoryMapper.toEntity(categoryDto);
+    public CreatedCategoryDto saveCategory(CreateCategoryDto createCategoryDto) {
+        CategoryEntity entity = categoryMapper.toEntity(createCategoryDto);
         CategoryEntity saved = categoryRepository.save(entity);
 
         return categoryMapper.toDto(saved);
@@ -34,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(Long categoryId) {
+    public CreatedCategoryDto getCategoryById(Long categoryId) {
         CategoryEntity categoryEntity = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(String.valueOf(categoryId)));
 
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> getCategories() {
-        return categoryMapper.toDtos(categoryRepository.findAll());
+    public List<CreatedCategoryDto> getCategories() {
+        return categoryMapper.toDto(categoryRepository.findAll());
     }
 }

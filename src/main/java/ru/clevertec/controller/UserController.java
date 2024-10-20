@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.clevertec.dto.UserDto;
 import ru.clevertec.dto.update.UserUpdateDto;
 import ru.clevertec.providers.BlackListFromBD;
+import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.dto.user.CreatedUserDto;
+import ru.clevertec.dto.user.UpdatedUserDto;
+import ru.clevertec.dto.user.UpdateUserDto;
 import ru.clevertec.service.UserService;
 import ru.clevertec.springbootsessionstarter.annotation.SessionProvider;
 
-import java.util.Map;
-import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @Slf4j
@@ -23,33 +24,29 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @ResponseStatus(CREATED)
     @SessionProvider(blackListProviders = BlackListFromBD.class)
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public CreatedUserDto createUser(@RequestBody CreateUserDto createUserDto) {
         log.info("Current session : {}", userDto.getSession());
-        UserDto savedUser = userService.saveUser(userDto);
-
-        return ResponseEntity.status(CREATED)
-                .body(savedUser);
+        return userService.saveUser(createUserDto);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
+    @ResponseStatus(NO_CONTENT)
+    public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-
-        return ResponseEntity.noContent()
-                .build();
     }
 
     @PutMapping("/{userId}")
     @SessionProvider(blackLists = {"Vlad", "Dmitry"})
-    public ResponseEntity<UserDto> updateUser(@PathVariable UUID userId,
-                                              @RequestBody UserUpdateDto updateDto) {
+    public UpdatedUserDto updateUser(@PathVariable Long userId,
+                                     @RequestBody UpdateUserDto updateDto) {
         log.info("Current session : {}", updateDto.getSession());
-        return ResponseEntity.ok(userService.fullUpdateUser(userId, updateDto));
+        return userService.fullUpdateUser(userId, updateDto);
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<UserDto> patchUpdateUser(@PathVariable UUID userId, @RequestBody Map<Object, Object> patch) {
-        return ResponseEntity.ok(userService.patchUpdateUser(userId, patch));
+    public UpdatedUserDto patchUpdateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateDto) {
+        return userService.patchUpdateUser(userId, updateDto);
     }
 }

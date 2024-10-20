@@ -1,7 +1,7 @@
-package ru.clevertec.dto.response;
+package ru.clevertec.dto.channel;
 
 import lombok.*;
-import ru.clevertec.dto.CategoryDto;
+import ru.clevertec.dto.category.CreateCategoryDto;
 import ru.clevertec.enums.Language;
 
 @AllArgsConstructor
@@ -15,5 +15,5 @@ public class ChannelShortDto {
     private Integer countOfSubscribers;
     private Language language;
     private Byte[] avatar;
-    private CategoryDto category;
+    private CreateCategoryDto category;
 }

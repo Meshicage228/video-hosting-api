@@ -6,21 +6,21 @@
     <changeSet id="insert_users_data" author="Vlad">
 
         <insert tableName="users">
-            <column name="id" value="2576d821-0fba-416f-ac6e-d360c34c03f2"/>
+            <column name="id" value="1"/>
             <column name="actual_name" value="Vlad"/>
             <column name="email" value="vlad@example.ru"/>
             <column name="nick_name" value="Meshicage"/>
         </insert>
 
         <insert tableName="users">
-            <column name="id" value="a5d1cc76-01c6-4e59-9e0a-5ebac8f83043"/>
+            <column name="id" value="2"/>
             <column name="actual_name" value="Misha"/>
             <column name="email" value="misha@example.ru"/>
             <column name="nick_name" value="mishka"/>
         </insert>
 
         <insert tableName="users">
-            <column name="id" value="d8c4ee9f-5053-4a56-ad02-d20d9ef20a66"/>
+            <column name="id" value="3"/>
             <column name="actual_name" value="Egor"/>
             <column name="email" value="egor@example.ru"/>
             <column name="nick_name" value="salvanize"/>

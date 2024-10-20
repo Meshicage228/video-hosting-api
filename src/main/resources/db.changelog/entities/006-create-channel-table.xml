@@ -13,7 +13,7 @@
             </column>
             <column name="short_description" type="VARCHAR(55)" remarks="short channel description">
             </column>
-            <column name="author_id" type="UUID" remarks="author ID">
+            <column name="author_id" type="BIGINT" remarks="author ID">
             </column>
             <column name="date_of_creation" type="DATE" remarks="year of foundation">
             </column>

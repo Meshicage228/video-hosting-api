@@ -5,12 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.clevertec.enums.Language;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
+@FieldNameConstants
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,6 +26,7 @@ public class ChannelEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "channel_gen")
     @SequenceGenerator(name = "channel_gen", schema = "public", allocationSize = 1, sequenceName = "channel_seq")
     private Long id;
+
     private String title;
 
     @Column(name = "short_description")

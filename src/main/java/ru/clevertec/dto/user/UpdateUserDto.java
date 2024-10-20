@@ -1,14 +1,13 @@
-package ru.clevertec.dto.update;
+package ru.clevertec.dto.user;
 
 import lombok.*;
-import ru.clevertec.springbootsessionstarter.dto.SessionRequest;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class UserUpdateDto extends SessionRequest {
+public class UpdateUserDto {
     private String nickName;
     private String actualName;
     private String email;

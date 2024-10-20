@@ -6,22 +6,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.request.ChannelDtoRequest;
-import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
-import ru.clevertec.dto.UserDto;
+import ru.clevertec.dto.channel.*;
+import ru.clevertec.dto.user.CreatedUserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
-import ru.clevertec.dto.response.ChannelDtoResponse;
-import ru.clevertec.dto.update.ChannelUpdateDto;
 import ru.clevertec.entity.ChannelEntity;
 import ru.clevertec.entity.UserEntity;
 import ru.clevertec.exception.ChannelNotFoundException;
 import ru.clevertec.mapper.ChannelMapper;
+import ru.clevertec.mapper.ShortChannelMapper;
 import ru.clevertec.mapper.UserMapper;
 import ru.clevertec.repository.ChannelRepository;
 import ru.clevertec.repository.ChannelSpecificationService;
 import ru.clevertec.service.ChannelService;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -29,26 +27,26 @@ import java.util.Set;
 public class ChannelServiceImpl implements ChannelService {
     private final ChannelRepository channelRepository;
     private final UserMapper userMapper;
+    private final ShortChannelMapper shortChannelMapper;
     private final ChannelMapper channelMapper;
-    private final FieldSetterService fieldSetterService;
 
     @Override
-    public ChannelDtoResponse saveChannel(ChannelDtoRequest channelDto) {
+    public CreatedChannelDto saveChannel(CreateChannelDto channelDto) {
         ChannelEntity entity = channelMapper.toEntity(channelDto);
         ChannelEntity saved = channelRepository.save(entity);
-        return channelMapper.toDto(saved);
+        return channelMapper.channelToDto(saved);
     }
 
     @Override
-    public PaginatedChannelDtoResponse searchChannel(Integer page, Integer size, ChannelFilter channelFilter) {
+    public Page<ChannelShortDto> searchChannel(Integer page, Integer size, ChannelFilter channelFilter) {
         Specification<ChannelEntity> specification = ChannelSpecificationService.createSpecification(channelFilter);
 
-        Page<ChannelEntity> channelEntityPage = channelRepository.findAll(specification, PageRequest.of(page, size));
-        return channelMapper.channelEntitiesToPaginatedChannelDtoResponse(channelEntityPage.getContent(), channelEntityPage.getPageable());
+        return channelRepository.findAll(specification, PageRequest.of(page, size))
+                .map(shortChannelMapper::toChannelShorDto);
     }
 
     @Override
-    public ChannelDtoResponse getChannel(Long channelId) {
+    public CreatedChannelDto getChannel(Long channelId) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
@@ -57,34 +55,34 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     @Transactional
-    public ChannelDtoResponse updateChannel(Long channelId, ChannelUpdateDto channelDto) {
+    public UpdatedChannelDto updateChannel(Long channelId, ChannelUpdateDto channelDto) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         ChannelEntity updatedChannel = channelMapper.updateChannel(channelEntity, channelDto);
 
-        return channelMapper.toDto(updatedChannel);
+        return channelMapper.toUpdatedDto(updatedChannel);
     }
 
     @Override
-    public Set<UserDto> getSubscribers(Long channelId) {
+    public List<CreatedUserDto> getSubscribers(Long channelId) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
         Set<UserEntity> subscribers = channelEntity.getSubscribers();
 
-        return userMapper.getUserDtos(subscribers);
+        return userMapper.toDto(subscribers);
     }
 
     @Override
     @Transactional
-    public ChannelDtoResponse patchUpdateChannel(Long channelId, Map<Object, Object> patch) {
+    public UpdatedChannelDto patchUpdateChannel(Long channelId, ChannelUpdateDto channelDto) {
         ChannelEntity channelEntity = channelRepository.findById(channelId)
                 .orElseThrow(() -> new ChannelNotFoundException(String.valueOf(channelId)));
 
-        fieldSetterService.setFields(channelEntity, patch);
+        ChannelEntity patchUpdated = channelMapper.patchUpdate(channelEntity, channelDto);
 
-        return channelMapper.channelToDto(channelEntity);
+        return channelMapper.toUpdatedDto(patchUpdated);
     }
 
 }

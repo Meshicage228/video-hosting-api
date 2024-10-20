@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,22 +18,27 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "nick_name")
     private String nickName;
 
     @Column(name = "actual_name")
     private String actualName;
+
     private String email;
 
-    @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "subscribers")
     private Set<ChannelEntity> subscriptions = new HashSet<>();
+
+    @OneToMany(mappedBy = "author")
+    private Set<ChannelEntity> createdChannels = new HashSet<>();
 
     @PreRemove
     private void preRemove() {
         subscriptions.forEach(subscription -> subscription.getSubscribers().remove(this));
+        createdChannels.forEach(createdChannels -> createdChannels.setAuthor(null));
     }
 
     public void addSubscription(ChannelEntity channelEntity) {

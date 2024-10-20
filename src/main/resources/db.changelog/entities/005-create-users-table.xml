@@ -5,7 +5,7 @@
 
     <changeSet id="create-users" author="Vlad">
         <createTable tableName="users" schemaName="public">
-            <column name="id" type="UUID" remarks="user ID">
+            <column name="id" type="BIGINT" remarks="user ID" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="nick_name" type="VARCHAR(40)" remarks="users nickname">

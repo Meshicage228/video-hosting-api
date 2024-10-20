@@ -5,7 +5,7 @@
 
     <changeSet id="create-subscription_user" author="Vlad">
         <createTable tableName="subscription_user" schemaName="public">
-            <column name="user_id" type="UUID" remarks="user ID">
+            <column name="user_id" type="BIGINT" remarks="user ID">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="channel_id" type="BIGINT" remarks="channel id">
