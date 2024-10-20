@@ -1,4 +1,4 @@
-package ru.clevertec.dto.update;
+package ru.clevertec.dto.user;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserUpdateDto {
+public class UpdateUserDto {
     private String nickName;
     private String actualName;
     private String email;

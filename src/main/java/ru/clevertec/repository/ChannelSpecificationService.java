@@ -4,9 +4,10 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
-import ru.clevertec.dto.CategoryDto;
 import ru.clevertec.dto.filter.ChannelFilter;
+import ru.clevertec.entity.CategoryEntity;
 import ru.clevertec.entity.ChannelEntity;
+import static ru.clevertec.entity.ChannelEntity.Fields.*;
 import ru.clevertec.enums.Language;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -16,22 +17,25 @@ public class ChannelSpecificationService {
 
     public Specification<ChannelEntity> createSpecification(ChannelFilter channelFilter) {
         return (root, query, builder) -> {
-            String title = channelFilter.getTitle();
-            Language language = channelFilter.getLanguage();
-            CategoryDto category = channelFilter.getCategory();
+            String channelTitle = channelFilter.getTitle();
+            Language filterLanguage = channelFilter.getLanguage();
+            Integer categoryId = channelFilter.getCategoryId();
+            String categoryTitle = channelFilter.getCategoryTitle();
             ArrayList<Predicate> predicates = new ArrayList<>();
 
-            Optional.ofNullable(title)
+            Optional.ofNullable(channelTitle)
                     .filter(StringUtils::isNotBlank)
-                    .ifPresent(value -> predicates.add(builder.like(root.get("title"), "%" + value.trim() + "%")));
+                    .ifPresent(value -> predicates.add(builder.like(root.get(CategoryEntity.Fields.title), "%" + value.trim() + "%")));
 
-            Optional.ofNullable(language)
-                    .ifPresent(value -> predicates.add(builder.like(root.get("language"), "%" + value + "%")));
+            Optional.ofNullable(filterLanguage)
+                    .ifPresent(value -> predicates.add(builder.like(root.get(language), "%" + value + "%")));
 
-            Optional.ofNullable(category)
-                    .map(CategoryDto::getTitle)
+            Optional.ofNullable(categoryTitle)
                     .filter(StringUtils::isNotBlank)
-                    .ifPresent(value -> predicates.add(builder.like(root.get("category").get("title"), "%" + value.trim() + "%")));
+                    .ifPresent(value -> predicates.add(builder.like(root.get(category).get(CategoryEntity.Fields.title), "%" + value.trim() + "%")));
+
+            Optional.ofNullable(categoryId)
+                    .ifPresent(value -> predicates.add(builder.equal(root.get(category).get(CategoryEntity.Fields.id), value)));
 
             return builder.and(predicates.toArray(Predicate[]::new));
         };

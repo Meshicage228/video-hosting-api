@@ -16,6 +16,5 @@ import java.util.UUID;
 public interface ChannelRepository extends JpaRepository<ChannelEntity, Long>,
                                            JpaSpecificationExecutor<ChannelEntity>,
                                            PagingAndSortingRepository<ChannelEntity, Long> {
-    List<ChannelEntity> findByAuthor(UserEntity author);
 }
 

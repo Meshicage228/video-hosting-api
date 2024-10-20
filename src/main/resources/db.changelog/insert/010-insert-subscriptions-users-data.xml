@@ -6,17 +6,17 @@
     <changeSet id="insert_subscriptions-users-data" author="Vlad">
 
         <insert tableName="subscription_user">
-            <column name="user_id" value="d8c4ee9f-5053-4a56-ad02-d20d9ef20a66"/>
+            <column name="user_id" value="1"/>
             <column name="channel_id" value="1"/>
         </insert>
 
         <insert tableName="subscription_user">
-            <column name="user_id" value="d8c4ee9f-5053-4a56-ad02-d20d9ef20a66"/>
+            <column name="user_id" value="1"/>
             <column name="channel_id" value="2"/>
         </insert>
 
         <insert tableName="subscription_user">
-            <column name="user_id" value="a5d1cc76-01c6-4e59-9e0a-5ebac8f83043"/>
+            <column name="user_id" value="3"/>
             <column name="channel_id" value="1"/>
         </insert>
     </changeSet>

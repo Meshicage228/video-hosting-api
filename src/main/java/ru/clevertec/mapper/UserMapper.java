@@ -1,31 +1,37 @@
 package ru.clevertec.mapper;
 
 import org.mapstruct.*;
-import ru.clevertec.dto.UserDto;
-import ru.clevertec.dto.update.UserUpdateDto;
+import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.dto.user.CreatedUserDto;
+import ru.clevertec.dto.user.UpdateUserDto;
+import ru.clevertec.dto.user.UpdatedUserDto;
 import ru.clevertec.entity.UserEntity;
 
+import java.util.List;
 import java.util.Set;
 
 @Mapper(
-        componentModel = "spring",
+        componentModel = MappingConstants.ComponentModel.SPRING,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = CategoryMapper.class
 )
 public interface UserMapper {
 
     @Mapping(target = "subscriptions", ignore = true)
-    UserDto toDto(UserEntity entity);
+    CreatedUserDto toDto(UserEntity entity);
 
-    UserEntity toEntity(UserDto entity);
+    UpdatedUserDto toUpdatedDto(UserEntity entity);
+
+    UserEntity toEntity(CreateUserDto entity);
 
     @BeanMapping(ignoreByDefault = true)
-    @Mappings(value = {
-            @Mapping(target = "nickName", source = "nickName"),
-            @Mapping(target = "actualName", source = "actualName"),
-            @Mapping(target = "email", source = "email")
-    })
-    UserEntity update(@MappingTarget UserEntity userEntity, UserUpdateDto entity);
+    @Mapping(target = "nickName", source = "nickName")
+    @Mapping(target = "actualName", source = "actualName")
+    @Mapping(target = "email", source = "email")
+    UserEntity update(@MappingTarget UserEntity userEntity, UpdateUserDto entity);
 
-    Set<UserDto> getUserDtos(Set<UserEntity> userEntities);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    UserEntity patchUpdate(@MappingTarget UserEntity userEntity, UpdateUserDto updateDto);
+
+    List<CreatedUserDto> toDto(Set<UserEntity> userEntities);
 }

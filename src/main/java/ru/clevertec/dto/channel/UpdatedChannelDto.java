@@ -1,8 +1,8 @@
-package ru.clevertec.dto.response;
+package ru.clevertec.dto.channel;
 
 import lombok.*;
-import ru.clevertec.dto.CategoryDto;
-import ru.clevertec.dto.UserDto;
+import ru.clevertec.dto.category.CreateCategoryDto;
+import ru.clevertec.dto.user.CreatedUserDto;
 import ru.clevertec.enums.Language;
 
 import java.util.Date;
@@ -12,14 +12,13 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class ChannelDtoResponse {
+public class UpdatedChannelDto {
     private Long id;
     private String title;
     private String shortDescription;
-    private UserDto author;
-    private Integer countOfSubscribers;
+    private CreatedUserDto author;
     private Date dateOfCreation;
     private Language language;
-    private CategoryDto category;
+    private CreateCategoryDto category;
     private String avatar;
 }

@@ -1,14 +1,13 @@
 package ru.clevertec.service;
 
-import ru.clevertec.dto.response.SubscriptionDtoResponse;
+import ru.clevertec.dto.subscription.SubscriptionDto;
 
 import java.util.Set;
-import java.util.UUID;
 
 public interface SubscriptionService {
-    void addSubscription(UUID userId, Long subscriptionId);
+    void addSubscription(Long userId, Long subscriptionId);
 
-    void removeSubscription(UUID userId, Long subscriptionId);
+    void removeSubscription(Long userId, Long subscriptionId);
 
-    Set<SubscriptionDtoResponse> getSubscriptions(UUID userId);
+    Set<SubscriptionDto> getSubscriptions(Long userId);
 }

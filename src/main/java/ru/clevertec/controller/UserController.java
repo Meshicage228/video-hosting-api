@@ -1,16 +1,14 @@
 package ru.clevertec.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.clevertec.dto.UserDto;
-import ru.clevertec.dto.update.UserUpdateDto;
+import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.dto.user.CreatedUserDto;
+import ru.clevertec.dto.user.UpdatedUserDto;
+import ru.clevertec.dto.user.UpdateUserDto;
 import ru.clevertec.service.UserService;
 
-import java.util.Map;
-import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,29 +17,25 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto channelDto) {
-        UserDto savedUser = userService.saveUser(channelDto);
-
-        return ResponseEntity.status(CREATED)
-                .body(savedUser);
+    @ResponseStatus(CREATED)
+    public CreatedUserDto createUser(@RequestBody CreateUserDto createUserDto) {
+        return userService.saveUser(createUserDto);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
+    @ResponseStatus(NO_CONTENT)
+    public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-
-        return ResponseEntity.noContent()
-                .build();
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable UUID userId,
-                                              @RequestBody UserUpdateDto updateDto) {
-        return ResponseEntity.ok(userService.fullUpdateUser(userId, updateDto));
+    public UpdatedUserDto updateUser(@PathVariable Long userId,
+                                     @RequestBody UpdateUserDto updateDto) {
+        return userService.fullUpdateUser(userId, updateDto);
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<UserDto> patchUpdateUser(@PathVariable UUID userId, @RequestBody Map<Object, Object> patch) {
-        return ResponseEntity.ok(userService.patchUpdateUser(userId, patch));
+    public UpdatedUserDto patchUpdateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateDto) {
+        return userService.patchUpdateUser(userId, updateDto);
     }
 }

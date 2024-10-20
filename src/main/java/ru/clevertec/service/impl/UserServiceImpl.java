@@ -3,33 +3,24 @@ package ru.clevertec.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.clevertec.dto.UserDto;
-import ru.clevertec.dto.update.UserUpdateDto;
+import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.dto.user.CreatedUserDto;
+import ru.clevertec.dto.user.UpdateUserDto;
+import ru.clevertec.dto.user.UpdatedUserDto;
 import ru.clevertec.entity.UserEntity;
 import ru.clevertec.exception.UserNotFoundException;
 import ru.clevertec.mapper.UserMapper;
-import ru.clevertec.repository.ChannelRepository;
 import ru.clevertec.repository.UserRepository;
 import ru.clevertec.service.UserService;
-
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ChannelRepository channelRepository;
     private final UserMapper userMapper;
-    private final FieldSetterService fieldSetterService;
-
-    public Optional<UserEntity> getUserById(UUID id) {
-        return userRepository.findById(id);
-    }
 
     @Override
-    public UserDto saveUser(UserDto userDto) {
+    public CreatedUserDto saveUser(CreateUserDto userDto) {
         UserEntity entity = userMapper.toEntity(userDto);
         UserEntity save = userRepository.save(entity);
         return userMapper.toDto(save);
@@ -37,34 +28,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto fullUpdateUser(UUID userId, UserUpdateDto userDto) {
-        UserEntity userEntity = getUserById(userId)
+    public UpdatedUserDto fullUpdateUser(Long userId, UpdateUserDto userDto) {
+        UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
         UserEntity updatedUser = userMapper.update(userEntity, userDto);
 
-        return userMapper.toDto(updatedUser);
-    }
-
-    @Override
-    public void deleteUser(UUID userId) {
-        UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
-
-        channelRepository.findByAuthor(userEntity)
-                .forEach(channelEntity -> channelEntity.setAuthor(null));
-
-        userRepository.delete(userEntity);
+        return userMapper.toUpdatedDto(updatedUser);
     }
 
     @Override
     @Transactional
-    public UserDto patchUpdateUser(UUID userId, Map<Object, Object> userDto) {
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    @Transactional
+    public UpdatedUserDto patchUpdateUser(Long userId, UpdateUserDto updateDto) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(String.valueOf(userId)));
 
-        fieldSetterService.setFields(userEntity, userDto);
+        UserEntity patchUpdated = userMapper.patchUpdate(userEntity, updateDto);
 
-        return userMapper.toDto(userEntity);
+        return userMapper.toUpdatedDto(patchUpdated);
     }
 }

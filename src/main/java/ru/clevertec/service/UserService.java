@@ -1,17 +1,16 @@
 package ru.clevertec.service;
 
-import ru.clevertec.dto.UserDto;
-import ru.clevertec.dto.update.UserUpdateDto;
-
-import java.util.Map;
-import java.util.UUID;
+import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.dto.user.CreatedUserDto;
+import ru.clevertec.dto.user.UpdateUserDto;
+import ru.clevertec.dto.user.UpdatedUserDto;
 
 public interface UserService {
-    UserDto saveUser(UserDto userDto);
+    CreatedUserDto saveUser(CreateUserDto userDto);
 
-    UserDto fullUpdateUser(UUID userId, UserUpdateDto userDto);
+    UpdatedUserDto fullUpdateUser(Long userId, UpdateUserDto userDto);
 
-    void deleteUser(UUID userId);
+    void deleteUser(Long userId);
 
-    UserDto patchUpdateUser(UUID userId, Map<Object, Object> userDto);
+    UpdatedUserDto patchUpdateUser(Long userId, UpdateUserDto updateDto);
 }

@@ -1,4 +1,4 @@
-package ru.clevertec.dto;
+package ru.clevertec.dto.subscription;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CategoryDto {
-    private Integer id;
+public class SubscriptionDto {
+    private Long id;
     private String title;
 }

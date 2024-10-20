@@ -1,26 +1,22 @@
 package ru.clevertec.service;
 
-import org.springframework.web.multipart.MultipartFile;
-import ru.clevertec.dto.request.ChannelDtoRequest;
-import ru.clevertec.dto.response.PaginatedChannelDtoResponse;
-import ru.clevertec.dto.UserDto;
+import org.springframework.data.domain.Page;
+import ru.clevertec.dto.channel.*;
+import ru.clevertec.dto.user.CreatedUserDto;
 import ru.clevertec.dto.filter.ChannelFilter;
-import ru.clevertec.dto.response.ChannelDtoResponse;
-import ru.clevertec.dto.update.ChannelUpdateDto;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 public interface ChannelService {
-    ChannelDtoResponse saveChannel(ChannelDtoRequest channelDto);
+    CreatedChannelDto saveChannel(CreateChannelDto channelDto);
 
-    PaginatedChannelDtoResponse searchChannel(Integer page, Integer size, ChannelFilter channelId);
+    Page<ChannelShortDto> searchChannel(Integer page, Integer size, ChannelFilter channelId);
 
-    ChannelDtoResponse getChannel(Long channelId);
+    CreatedChannelDto getChannel(Long channelId);
 
-    ChannelDtoResponse updateChannel(Long channelId, ChannelUpdateDto channelDto);
+    UpdatedChannelDto updateChannel(Long channelId, ChannelUpdateDto channelDto);
 
-    Set<UserDto> getSubscribers(Long channelId);
+    List<CreatedUserDto> getSubscribers(Long channelId);
 
-    ChannelDtoResponse patchUpdateChannel(Long channelId, Map<Object, Object> patch);
+    UpdatedChannelDto patchUpdateChannel(Long channelId, ChannelUpdateDto channelDto);
 }
