@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-master.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create-subscription_user" author="Vlad">
+        <createTable tableName="subscription_user" schemaName="public">
+            <column name="user_id" type="BIGINT" remarks="user ID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="channel_id" type="BIGINT" remarks="channel id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="modify_fkeys_subscription_user" author="Vlad">
+        <addForeignKeyConstraint baseTableName="subscription_user" baseColumnNames="user_id"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_user_id" referencedTableName="users"
+                                 referencedTableSchemaName="public"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="subscription_user" baseColumnNames="channel_id"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_channel_id" referencedTableName="channels"
+                                 referencedTableSchemaName="public"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

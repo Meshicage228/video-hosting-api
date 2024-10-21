@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-master.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create-channelTable" author="Vlad">
+        <createTable tableName="channels" schemaName="public">
+            <column name="id" type="BIGINT" remarks="channel ID" defaultValueComputed="nextval('public.channel_seq')">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="title" type="VARCHAR(40)" remarks="channel title">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_description" type="VARCHAR(55)" remarks="short channel description">
+            </column>
+            <column name="author_id" type="BIGINT" remarks="author ID">
+            </column>
+            <column name="date_of_creation" type="DATE" remarks="year of foundation">
+            </column>
+            <column name="language" type="VARCHAR(20)" remarks="spoken language of channel">
+            </column>
+            <column name="category_id" type="SMALLINT" remarks="channel category">
+            </column>
+            <column name="avatar" type="oid" remarks="avatar of channel">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="modify_fk_channel-author_id" author="Vlad">
+        <addForeignKeyConstraint baseTableName="channels" baseColumnNames="author_id"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_user_id" referencedTableName="users"
+                                 referencedTableSchemaName="public"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="modify_fk_channel-category_id" author="Vlad">
+        <addForeignKeyConstraint baseTableName="channels" baseColumnNames="category_id"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_category_id" referencedTableName="categories"
+                                 referencedTableSchemaName="public"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

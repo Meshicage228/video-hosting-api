@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.changelog-master.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="insert_channel_data" author="Vlad">
+
+        <insert tableName="channels">
+            <column name="id" value="1"/>
+            <column name="language" value="RU"/>
+            <column name="short_description" value="Films channel"/>
+            <column name="title" value="Films Review"/>
+            <column name="author_id" value="1"/>
+            <column name="category_id" value="1"/>
+            <column name="date_of_creation" value="2022-12-12"/>
+        </insert>
+
+        <insert tableName="channels">
+            <column name="id" value="2"/>
+            <column name="language" value="ENG"/>
+            <column name="short_description" value="Game Review"/>
+            <column name="title" value="Latest game reviews"/>
+            <column name="author_id" value="2"/>
+            <column name="category_id" value="2"/>
+            <column name="date_of_creation" value="2022-08-12"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
