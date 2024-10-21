@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,17 +31,12 @@ public class UserEntity {
 
     private String email;
 
-    @ManyToMany(mappedBy = "subscribers")
+    @ManyToMany(mappedBy = "subscribers", cascade = {CascadeType.DETACH, CascadeType.REMOVE})
     private Set<ChannelEntity> subscriptions = new HashSet<>();
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Set<ChannelEntity> createdChannels = new HashSet<>();
-
-    @PreRemove
-    private void preRemove() {
-        subscriptions.forEach(subscription -> subscription.getSubscribers().remove(this));
-        createdChannels.forEach(createdChannels -> createdChannels.setAuthor(null));
-    }
 
     public void addSubscription(ChannelEntity channelEntity) {
         subscriptions.add(channelEntity);
