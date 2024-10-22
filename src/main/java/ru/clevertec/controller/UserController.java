@@ -2,12 +2,9 @@ package ru.clevertec.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.clevertec.dto.UserDto;
-import ru.clevertec.dto.update.UserUpdateDto;
-import ru.clevertec.providers.BlackListFromBD;
 import ru.clevertec.dto.user.CreateUserDto;
+import ru.clevertec.providers.BlackListFromBD;
 import ru.clevertec.dto.user.CreatedUserDto;
 import ru.clevertec.dto.user.UpdatedUserDto;
 import ru.clevertec.dto.user.UpdateUserDto;
@@ -27,7 +24,7 @@ public class UserController {
     @ResponseStatus(CREATED)
     @SessionProvider(blackListProviders = BlackListFromBD.class)
     public CreatedUserDto createUser(@RequestBody CreateUserDto createUserDto) {
-        log.info("Current session : {}", userDto.getSession());
+        log.info("Current session : {}", createUserDto.getSession());
         return userService.saveUser(createUserDto);
     }
 

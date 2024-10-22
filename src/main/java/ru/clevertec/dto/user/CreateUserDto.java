@@ -1,4 +1,4 @@
-package ru.clevertec.dto.update;
+package ru.clevertec.dto.user;
 
 import lombok.*;
 import ru.clevertec.springbootsessionstarter.dto.SessionRequest;
